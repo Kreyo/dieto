@@ -1,16 +1,25 @@
 import React from 'react';
 import Modal from '@material-ui/core/Modal';
+import NewItem from './form/NewItem';
 
-const ModalWindow = () => {
+const ModalWindow = ({ type, onClose }) => {
+  const renderModalContent = type => {
+    switch (type) {
+      case 'new':
+        return <NewItem />;
+      default:
+        return '';
+    };
+  };
+
   return (
     <Modal
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
-      open={false}
+      open={type ? true : false}
+      onClose={onClose}
     >
-      <div >
-        <h2 id="modal-title">Modal</h2>
-      </div>
+      {renderModalContent(type)}
     </Modal>
   );
 };

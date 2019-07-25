@@ -25,8 +25,10 @@ const Datagrid = ({ rows }) => (
                       inputProps={{ 'aria-label': 'Select all' }}
                     />
                   </TableCell>
-                  <TableCell>Date</TableCell>
                   <TableCell>Name</TableCell>
+                  <TableCell>Customer Since</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Description</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -35,8 +37,10 @@ const Datagrid = ({ rows }) => (
                     <TableCell>
                       <Checkbox />
                     </TableCell>
-                    <TableCell>{row.id}</TableCell>
                     <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.customerSince.toDateString()}</TableCell>
+                    <TableCell>{row.type}</TableCell>
+                    <TableCell>{row.description}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
