@@ -1,0 +1,51 @@
+import React from 'react';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import Checkbox from '@material-ui/core/Checkbox';
+
+const Datagrid = ({ rows }) => (
+  <div className="datagrid">
+    <Container maxWidth="lg">
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper>
+            <Typography component="h2" variant="h6" color="primary" gutterBottom>Recent Clients</Typography>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <Checkbox
+                      inputProps={{ 'aria-label': 'Select all' }}
+                    />
+                  </TableCell>
+                  <TableCell>Date</TableCell>
+                  <TableCell>Name</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map(row => (
+                  <TableRow key={row.id}>
+                    <TableCell>
+                      <Checkbox />
+                    </TableCell>
+                    <TableCell>{row.id}</TableCell>
+                    <TableCell>{row.name}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+        </Grid>
+      </Grid>
+    </Container>
+  </div>
+);
+
+export default Datagrid;
