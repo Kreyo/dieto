@@ -7,16 +7,16 @@ import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 
-class NewItem extends React.Component {
+class EditItem extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      id: null,
-      name: null,
-      customerSince: null,
-      description: null,
-      type: null,
+      id: props.customer.id,
+      name: props.customer.name,
+      customerSince: props.customer.customerSince,
+      description: props.customer.description,
+      type: props.customer.type,
     };
   }
 
@@ -34,25 +34,21 @@ class NewItem extends React.Component {
           alignItems="center"
         >
           <TextField
-            id="id"
-            label="Id"
-            margin="normal"
-            onChange={event => this.onChange('id', event.target.value)}
-            fullWidth
-          />
-          <TextField
             id="name"
             label="Name"
             margin="normal"
-            onChange={event => this.onChange('name', event.target.value)}
             fullWidth
+            value={this.state.name}
+            onChange={event => this.onChange('name', event.target.value)}
           />
           <TextField
             id="description"
             label="Description"
             margin="normal"
-            onChange={event => this.onChange('description', event.target.value)}
+            multiline
             fullWidth
+            value={this.state.description}
+            onChange={event => this.onChange('description', event.target.value)}
           />
           <FormControl style={{ minWidth: '200px' }} fullWidth>
             <InputLabel htmlFor="type">Type</InputLabel>
@@ -74,11 +70,11 @@ class NewItem extends React.Component {
             label="Customer Since"
             margin="normal"
             type="date"
-            defaultValue="2019-07-20"
-            onChange={event => this.onChange('customerSince', new Date(event.target.value))}
             fullWidth
+            defaultValue={this.state.customerSince.toISOString().slice(0, 10)}
+            onChange={event => this.onChange('customerSince', new Date(event.target.value))}
           />
-          <Button color="primary" onClick={() => this.props.addCustomer(this.state)}>
+          <Button color="primary" onClick={() => this.props.editCustomer(this.state)}>
             Submit
           </Button>
         </Grid>
@@ -86,4 +82,4 @@ class NewItem extends React.Component {
   }
 }
 
-export default NewItem;
+export default EditItem;

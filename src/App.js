@@ -1,9 +1,11 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
+
 import Header from './components/Header';
 import Datagrid from './components/Datagrid';
 import ActionBar from './components/ActionBar';
 import ModalWindow from './components/ModalWindow';
+
 import './App.css';
 import { MODAL_TYPES } from './constants';
 import rowsData from './data';
@@ -20,9 +22,15 @@ class App extends React.Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.addCustomer = this.addCustomer.bind(this);
+    this.editCustomer = this.editCustomer.bind(this);
+    this.getSelectedCustomer = this.getSelectedCustomer.bind(this);
   }
 
   openModal = type => {
+    const selectedRows = this.state.rows.filter(item => item.selected);
+    if (selectedRows.length !== 1) {
+      type = MODAL_TYPES.ERROR;
+    }
     this.setState({
       modalType: type,
     });
@@ -46,6 +54,17 @@ class App extends React.Component {
     this.closeModal();
   };
 
+  editCustomer = customerRow => {
+    const updatedRowIndex = this.state.rows.findIndex(item => item.id === customerRow.id);
+    const updatedRows = this.state.rows;
+    customerRow.selected = true;
+    updatedRows[updatedRowIndex] = customerRow;
+    this.setState({ rows: updatedRows });
+    this.closeModal();
+  };
+
+  getSelectedCustomer = () => this.state.rows.find(item => item.selected);
+
   render() {
     return (
       <div className="App">
@@ -57,7 +76,13 @@ class App extends React.Component {
             removeSelected={this.removeSelected}
           />
           <Datagrid rows={this.state.rows} />
-          <ModalWindow type={this.state.modalType} onClose={this.closeModal} addCustomer={this.addCustomer} />
+          <ModalWindow
+            type={this.state.modalType}
+            onClose={this.closeModal}
+            addCustomer={this.addCustomer}
+            editCustomer={this.editCustomer}
+            customer={this.getSelectedCustomer()}
+          />
         </Container>
       </div>
     );

@@ -20,11 +20,7 @@ const Datagrid = ({ rows }) => (
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell>
-                    <Checkbox
-                      inputProps={{ 'aria-label': 'Select all' }}
-                    />
-                  </TableCell>
+                  <TableCell/>
                   <TableCell>Name</TableCell>
                   <TableCell>Customer Since</TableCell>
                   <TableCell>Type</TableCell>
@@ -35,7 +31,7 @@ const Datagrid = ({ rows }) => (
                 {rows.map((row, index) => (
                   <TableRow key={row.id}>
                     <TableCell>
-                      <Checkbox onChange={() => rows[index].selected = true} />
+                      <Checkbox onChange={() => rows[index].selected = !rows[index].selected } checked={row.selected} />
                     </TableCell>
                     <TableCell>{row.name}</TableCell>
                     <TableCell>{row.customerSince.toDateString()}</TableCell>
