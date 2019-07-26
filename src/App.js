@@ -5,56 +5,59 @@ import Datagrid from './components/Datagrid';
 import ActionBar from './components/ActionBar';
 import ModalWindow from './components/ModalWindow';
 import './App.css';
+import { MODAL_TYPES } from './constants';
+import rowsData from './data';
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      modalType: null,
+      modalType: MODAL_TYPES.NONE,
+      rows: rowsData,
     };
 
-    this.openModalNew = this.openModalNew.bind(this);
+    this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.addCustomer = this.addCustomer.bind(this);
   }
 
-  openModalNew = () => {
+  openModal = type => {
     this.setState({
-      modalType: 'new',
+      modalType: type,
     });
   };
 
   closeModal = () => {
     this.setState({
-      modalType: null,
+      modalType: MODAL_TYPES.NONE,
     });
   };
 
-  render() {
-    const rows = [
-      {
-        id: 0,
-        name: 'First',
-        customerSince: new Date('1995-12-17T03:24:00'),
-        type: 'Actual',
-        description: 'Just a small town girl living in a lonely world',
-      },
-      {
-        id: 1,
-        name: 'Second',
-        customerSince: new Date('1995-12-17T03:24:00'),
-        type: 'Actual',
-        description: 'Just a city boy born and raised in South Detroit',
-      },
-    ];
+  removeSelected = () => {
+    const updatedRows = this.state.rows.filter(item => !item.selected);
+    this.setState({ rows: updatedRows });
+  };
 
+  addCustomer = customerRow => {
+    const updatedRows = this.state.rows;
+    updatedRows.push(customerRow);
+    this.setState({ rows: updatedRows });
+    this.closeModal();
+  };
+
+  render() {
     return (
       <div className="App">
         <Header />
         <Container style={{ marginTop: '80px' }}>
-          <ActionBar addNew={this.openModalNew} />
-          <Datagrid rows={rows} />
-          <ModalWindow type={this.state.modalType} onClose={this.closeModal} />
+          <ActionBar
+            addNew={() => this.openModal(MODAL_TYPES.NEW)}
+            editSelected={() => this.openModal(MODAL_TYPES.EDIT)}
+            removeSelected={this.removeSelected}
+          />
+          <Datagrid rows={this.state.rows} />
+          <ModalWindow type={this.state.modalType} onClose={this.closeModal} addCustomer={this.addCustomer} />
         </Container>
       </div>
     );

@@ -32,10 +32,10 @@ const Datagrid = ({ rows }) => (
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map(row => (
+                {rows.map((row, index) => (
                   <TableRow key={row.id}>
                     <TableCell>
-                      <Checkbox />
+                      <Checkbox onChange={() => rows[index].selected = true} />
                     </TableCell>
                     <TableCell>{row.name}</TableCell>
                     <TableCell>{row.customerSince.toDateString()}</TableCell>
